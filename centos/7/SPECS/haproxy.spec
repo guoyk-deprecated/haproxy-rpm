@@ -15,7 +15,7 @@ Group:          System Environment/Daemons
 License:        GPLv2+
 
 URL:            http://www.haproxy.org/
-Source0:        haproxy-v1.8.7.tar.gz
+Source0:        %{name}-v%{version}.tar.gz
 Source1:        %{name}.service
 Source2:        %{name}.cfg
 Source3:        %{name}.logrotate
