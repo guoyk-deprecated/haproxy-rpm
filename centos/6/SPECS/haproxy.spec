@@ -1,14 +1,15 @@
 Summary: HA-Proxy is a TCP/HTTP reverse proxy for high availability environments
 Name: haproxy
 Version: 1.8.7
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPL
 Group: System Environment/Daemons
 URL: http://www.haproxy.org/
-Source0: %{name}-v%{version}.tar.gz
+Source0: https://www.haproxy.org/download/1.8/src/%{name}-%{version}.tar.gz
 Source1: %{name}.cfg
 Source2: %{name}.logrotate
 Source3: %{name}.init
+Patch0: add-riid.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildRequires: pcre-devel, openssl-devel, zlib-devel
 Requires: /sbin/chkconfig, /sbin/service
@@ -31,6 +32,7 @@ risking the system's stability.
 
 %prep
 %setup -q
+%patch0 -p0
 
 # We don't want any perl dependecies in this RPM:
 %define __perl_requires /bin/true

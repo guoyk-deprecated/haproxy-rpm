@@ -8,19 +8,21 @@
 
 Name:           haproxy
 Version:        1.8.7
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        TCP/HTTP proxy and load balancer for high availability environments
 
 Group:          System Environment/Daemons
 License:        GPLv2+
 
 URL:            http://www.haproxy.org/
-Source0:        %{name}-v%{version}.tar.gz
+Source0:        https://www.haproxy.org/download/1.8/src/%{name}-%{version}.tar.gz
 Source1:        %{name}.service
 Source2:        %{name}.cfg
 Source3:        %{name}.logrotate
 Source4:        %{name}.sysconfig
 Source5:        halog.1
+
+Patch0:         add-riid.patch
 
 BuildRequires:  pcre-devel
 BuildRequires:  zlib-devel
@@ -49,6 +51,7 @@ availability environments. Indeed, it can:
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
 regparm_opts=
