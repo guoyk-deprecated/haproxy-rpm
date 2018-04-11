@@ -51,7 +51,7 @@ availability environments. Indeed, it can:
 
 %prep
 %setup -q
-%patch0 -p0
+%patch0 -p1
 
 %build
 regparm_opts=

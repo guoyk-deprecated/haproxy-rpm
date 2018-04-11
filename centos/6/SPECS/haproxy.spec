@@ -32,7 +32,7 @@ risking the system's stability.
 
 %prep
 %setup -q
-%patch0 -p0
+%patch0 -p1
 
 # We don't want any perl dependecies in this RPM:
 %define __perl_requires /bin/true

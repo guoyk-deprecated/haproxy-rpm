@@ -1,7 +1,8 @@
-diff -ruN ./include/types/global.h ../haproxy-1.8.7-70bd7a-1/include/types/global.h
---- ./include/types/global.h	2018-04-07 06:30:56.000000000 +0800
-+++ ../haproxy-1.8.7-70bd7a-1/include/types/global.h	2018-04-09 16:26:50.000000000 +0800
-@@ -87,6 +87,7 @@
+diff --git a/include/types/global.h b/include/types/global.h
+index bd7761cd..843e9c01 100644
+--- a/include/types/global.h
++++ b/include/types/global.h
+@@ -87,6 +87,7 @@ enum {
  struct global {
  	int uid;
  	int gid;
@@ -9,10 +10,11 @@ diff -ruN ./include/types/global.h ../haproxy-1.8.7-70bd7a-1/include/types/globa
  	int external_check;
  	int nbproc;
  	int nbthread;
-diff -ruN ./include/types/log.h ../haproxy-1.8.7-70bd7a-1/include/types/log.h
---- ./include/types/log.h	2018-04-07 06:30:56.000000000 +0800
-+++ ../haproxy-1.8.7-70bd7a-1/include/types/log.h	2018-04-09 16:26:50.000000000 +0800
-@@ -62,6 +62,8 @@
+diff --git a/include/types/log.h b/include/types/log.h
+index 0fdb7757..07a6acf6 100644
+--- a/include/types/log.h
++++ b/include/types/log.h
+@@ -62,6 +62,8 @@ enum {
  	LOG_FMT_SERVERPORT,
  	LOG_FMT_SERVERIP,
  	LOG_FMT_COUNTER,
@@ -21,10 +23,11 @@ diff -ruN ./include/types/log.h ../haproxy-1.8.7-70bd7a-1/include/types/log.h
  	LOG_FMT_LOGCNT,
  	LOG_FMT_PID,
  	LOG_FMT_DATE,
-diff -ruN ./src/haproxy.c ../haproxy-1.8.7-70bd7a-1/src/haproxy.c
---- ./src/haproxy.c	2018-04-07 06:30:56.000000000 +0800
-+++ ../haproxy-1.8.7-70bd7a-1/src/haproxy.c	2018-04-09 16:30:15.000000000 +0800
-@@ -126,6 +126,7 @@
+diff --git a/src/haproxy.c b/src/haproxy.c
+index 4628d829..6bf542d3 100644
+--- a/src/haproxy.c
++++ b/src/haproxy.c
+@@ -126,6 +126,7 @@ unsigned long pid_bit = 1;      /* bit corresponding to the process id */
  
  /* global options */
  struct global global = {
@@ -32,7 +35,7 @@ diff -ruN ./src/haproxy.c ../haproxy-1.8.7-70bd7a-1/src/haproxy.c
  	.hard_stop_after = TICK_ETERNITY,
  	.nbproc = 1,
  	.nbthread = 1,
-@@ -1260,6 +1261,34 @@
+@@ -1260,6 +1261,34 @@ static char **copy_argv(int argc, char **argv)
  	return newargv;
  }
  
@@ -67,7 +70,7 @@ diff -ruN ./src/haproxy.c ../haproxy-1.8.7-70bd7a-1/src/haproxy.c
  /*
   * This function initializes all the necessary variables. It only returns
   * if everything is OK. If something fails, it exits.
-@@ -1312,6 +1341,8 @@
+@@ -1312,6 +1341,8 @@ static void init(int argc, char **argv)
  
  	srandom(now_ms - getpid());
  
@@ -76,7 +79,7 @@ diff -ruN ./src/haproxy.c ../haproxy-1.8.7-70bd7a-1/src/haproxy.c
  	init_log();
  	signal_init();
  	if (init_acl() != 0)
-@@ -2767,6 +2798,8 @@
+@@ -2767,6 +2798,8 @@ int main(int argc, char **argv)
  			/* parent leave to daemonize */
  			if (ret > 0)
  				exit(0);
@@ -85,7 +88,7 @@ diff -ruN ./src/haproxy.c ../haproxy-1.8.7-70bd7a-1/src/haproxy.c
  		}
  
  		if (global.mode & MODE_MWORKER) {
-@@ -2813,8 +2846,12 @@
+@@ -2813,8 +2846,12 @@ int main(int argc, char **argv)
  				protocol_unbind_all();
  				exit(1); /* there has been an error */
  			}
@@ -99,10 +102,11 @@ diff -ruN ./src/haproxy.c ../haproxy-1.8.7-70bd7a-1/src/haproxy.c
  			children[proc] = ret;
  			if (pidfd >= 0 && !(global.mode & MODE_MWORKER)) {
  				char pidstr[100];
-diff -ruN ./src/log.c ../haproxy-1.8.7-70bd7a-1/src/log.c
---- ./src/log.c	2018-04-07 06:30:56.000000000 +0800
-+++ ../haproxy-1.8.7-70bd7a-1/src/log.c	2018-04-09 16:26:50.000000000 +0800
-@@ -124,6 +124,8 @@
+diff --git a/src/log.c b/src/log.c
+index e2dde84f..ac337022 100644
+--- a/src/log.c
++++ b/src/log.c
+@@ -124,6 +124,8 @@ static const struct logformat_type logformat_keywords[] = {
  	{ "CC", LOG_FMT_CCLIENT, PR_MODE_HTTP, LW_REQHDR, NULL },  /* client cookie */
  	{ "CS", LOG_FMT_CSERVER, PR_MODE_HTTP, LW_RSPHDR, NULL },  /* server cookie */
  	{ "H", LOG_FMT_HOSTNAME, PR_MODE_TCP, LW_INIT, NULL }, /* Hostname */
@@ -111,7 +115,7 @@ diff -ruN ./src/log.c ../haproxy-1.8.7-70bd7a-1/src/log.c
  	{ "ID", LOG_FMT_UNIQUEID, PR_MODE_HTTP, LW_BYTES, NULL }, /* Unique ID */
  	{ "ST", LOG_FMT_STATUS, PR_MODE_TCP, LW_RESP, NULL },   /* status code */
  	{ "T", LOG_FMT_DATEGMT, PR_MODE_TCP, LW_INIT, NULL },   /* date GMT */
-@@ -2276,7 +2278,7 @@
+@@ -2276,7 +2278,7 @@ int build_logline(struct stream *s, char *dst, size_t maxsize, struct list *list
  
  			case LOG_FMT_COUNTER: // %rt
  				if (tmp->options & LOG_OPT_HEXA) {
@@ -120,7 +124,7 @@ diff -ruN ./src/log.c ../haproxy-1.8.7-70bd7a-1/src/log.c
  					if (iret < 0 || iret > dst + maxsize - tmplog)
  						goto out;
  					last_isspace = 0;
-@@ -2315,6 +2317,38 @@
+@@ -2315,6 +2317,38 @@ int build_logline(struct stream *s, char *dst, size_t maxsize, struct list *list
  				last_isspace = 0;
  				break;
  
